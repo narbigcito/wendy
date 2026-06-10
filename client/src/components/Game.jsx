@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import ReactionBar from './ReactionBar'
-import { CATEGORY_META } from '../constants'
+import Timer from './Timer'
 
 function Confetti() {
   const pieces = useMemo(() =>
@@ -9,7 +9,7 @@ function Confetti() {
       x: 5 + Math.random() * 90,
       delay: Math.random() * 0.6,
       size: 7 + Math.random() * 7,
-      color: ['#8B5CF6', '#EC4899', '#10B981', '#F59E0B', '#EF4444', '#3B82F6'][i % 6],
+      color: ['#7F77DD', '#BA7517', '#993556', '#D85A30', '#1D9E75', '#533AB7', '#639922'][i % 7],
       rotate: Math.random() * 360,
     })), [])
 
@@ -34,8 +34,8 @@ function Confetti() {
 }
 
 export default function Game({
-  question, idx, total,
-  playerCount, myAnswer, partnerAnswer,
+  catalog, question, idx, total,
+  timerSecs, playerCount, myAnswer, partnerAnswer,
   answeredCount, revealed, match, matches,
   onAnswer, onNext, onReaction,
 }) {
@@ -63,13 +63,15 @@ export default function Game({
 
   if (!question) return null
 
-  const meta = CATEGORY_META[question.cat] ?? CATEGORY_META.vida
+  const catMeta = catalog?.categorias?.[question.cat] ?? {}
+  const catColor = catMeta.color ?? '#8B5CF6'
+  const catBg = catMeta.bg ?? 'rgba(139,92,246,0.15)'
   const progress = ((idx + 1) / total) * 100
   const iAnswered = myAnswer !== null
   const partnerAnswered = answeredCount > (iAnswered ? 1 : 0)
 
   return (
-    <div className="game" style={{ '--cat-color': meta.color }}>
+    <div className="game" style={{ '--cat-color': catColor, '--cat-bg': catBg }}>
       {showConfetti && <Confetti />}
 
       <div className="game-header">
@@ -78,14 +80,14 @@ export default function Game({
           <span className="pdot" style={{ background: playerCount >= 2 ? '#10B981' : '#475569' }} />
           <span>{playerCount}/2</span>
         </div>
-        <div className="cat-badge" style={{ background: meta.color }}>
-          {meta.icon} {meta.label}
+        <div className="cat-badge" style={{ background: catColor }}>
+          {question.cat}
         </div>
         <div className="match-chip">{matches} ✓</div>
       </div>
 
       <div className="progress-track">
-        <div className="progress-fill" style={{ width: `${progress}%`, background: meta.color }} />
+        <div className="progress-fill" style={{ width: `${progress}%`, background: catColor }} />
       </div>
       <p className="progress-label">{idx + 1} / {total}</p>
 
@@ -125,6 +127,10 @@ export default function Game({
                 <span className="thinking-dots">Tu pareja está pensando</span>
               </div>
             )}
+          </div>
+
+          <div className="timer-row">
+            <Timer secs={timerSecs} />
           </div>
         </>
       )}

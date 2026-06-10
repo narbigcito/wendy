@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import { CATEGORY_META } from '../constants'
 
-export default function Lobby({ shareUrl, playerCount, selectedCategories, onToggleCategory, onStart }) {
+export default function Lobby({ catalog, shareUrl, playerCount, selectedCategories, onToggleCategory, onStart }) {
   const [copied, setCopied] = useState(false)
 
   const copyLink = async () => {
@@ -10,7 +9,6 @@ export default function Lobby({ shareUrl, playerCount, selectedCategories, onTog
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch {
-      // fallback for older browsers
       const el = document.createElement('textarea')
       el.value = shareUrl
       document.body.appendChild(el)
@@ -22,7 +20,11 @@ export default function Lobby({ shareUrl, playerCount, selectedCategories, onTog
     }
   }
 
-  const totalQuestions = selectedCategories.size * 10
+  const categorias = catalog?.categorias ?? {}
+
+  const totalQuestions = [...selectedCategories].reduce((sum, cat) => {
+    return sum + (categorias[cat]?.preguntas?.length ?? 0)
+  }, 0)
 
   return (
     <div className="lobby">
@@ -51,17 +53,18 @@ export default function Lobby({ shareUrl, playerCount, selectedCategories, onTog
 
       <section className="categories-section">
         <h2 className="section-title">Elige las categorías</h2>
+        {!catalog && <p className="muted-hint">Cargando categorías…</p>}
         <div className="categories-grid">
-          {Object.entries(CATEGORY_META).map(([key, { label, color, icon }]) => (
+          {Object.entries(categorias).map(([name, meta]) => (
             <button
-              key={key}
-              className={`category-card ${selectedCategories.has(key) ? 'selected' : ''}`}
-              style={{ '--cat-color': color }}
-              onClick={() => onToggleCategory(key)}
+              key={name}
+              className={`category-card ${selectedCategories.has(name) ? 'selected' : ''}`}
+              style={{ '--cat-color': meta.color, '--cat-bg': meta.bg }}
+              onClick={() => onToggleCategory(name)}
             >
-              <span className="cat-icon">{icon}</span>
-              <span className="cat-label">{label}</span>
-              {selectedCategories.has(key) && (
+              <span className="cat-label">{name}</span>
+              <span className="cat-desc">{meta.descripcion}</span>
+              {selectedCategories.has(name) && (
                 <span className="cat-check">✓</span>
               )}
             </button>
@@ -73,7 +76,7 @@ export default function Lobby({ shareUrl, playerCount, selectedCategories, onTog
       <button
         className="start-btn"
         onClick={onStart}
-        disabled={playerCount < 2}
+        disabled={playerCount < 2 || !catalog}
       >
         {playerCount < 2 ? 'Esperando al segundo jugador...' : '¡Empezar juego!'}
       </button>

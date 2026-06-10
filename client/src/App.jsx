@@ -7,8 +7,6 @@ function genRoomId() {
   return Math.random().toString(36).substring(2, 8).toUpperCase()
 }
 
-const ALL_CATEGORIES = ['vida', 'valores', 'dinero', 'tabues', 'sexualidad']
-
 const initialState = {
   started: false,
   gameOver: false,
@@ -41,7 +39,8 @@ export default function App() {
   const [roomId, setRoomId] = useState(null)
   const [state, setState] = useState(initialState)
   const [reactions, setReactions] = useState([])
-  const [categories, setCategories] = useState(new Set(ALL_CATEGORIES))
+  const [catalog, setCatalog] = useState(null)
+  const [categories, setCategories] = useState(new Set())
   const [connected, setConnected] = useState(false)
   const wsRef = useRef(null)
   const reactionCounter = useRef(0)
@@ -51,6 +50,17 @@ export default function App() {
   useEffect(() => {
     isMounted.current = true
     return () => { isMounted.current = false }
+  }, [])
+
+  // Fetch catalog once on mount
+  useEffect(() => {
+    fetch('/api/questions')
+      .then(r => r.json())
+      .then(data => {
+        if (!isMounted.current) return
+        setCatalog(data)
+        setCategories(new Set(Object.keys(data.categorias)))
+      })
   }, [])
 
   useEffect(() => {
@@ -93,7 +103,7 @@ export default function App() {
             gameOver: msg.gameOver ?? false,
             questions: msg.questions ?? prev.questions,
             idx: msg.idx,
-            timerSecs: msg.timerSecs,
+            timerSecs: msg.timerSecs ?? prev.timerSecs,
             playerCount: msg.playerCount,
             slot: msg.slot ?? prev.slot,
             answeredCount: msg.answeredCount ?? 0,
@@ -197,9 +207,11 @@ export default function App() {
       <div className="app">
         <FloatingReactions reactions={reactions} />
         <Game
+          catalog={catalog}
           question={state.questions[state.idx]}
           idx={state.idx}
           total={state.questions.length}
+          timerSecs={state.timerSecs}
           playerCount={state.playerCount}
           myAnswer={state.myAnswer}
           partnerAnswer={state.partnerAnswer}
@@ -220,6 +232,7 @@ export default function App() {
       {!connected && <div className="connecting-banner">Reconectando...</div>}
       <FloatingReactions reactions={reactions} />
       <Lobby
+        catalog={catalog}
         shareUrl={shareUrl}
         playerCount={state.playerCount}
         selectedCategories={categories}

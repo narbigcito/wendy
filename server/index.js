@@ -2,17 +2,26 @@ const express = require('express');
 const { WebSocketServer, WebSocket } = require('ws');
 const http = require('http');
 const path = require('path');
-const { QUESTIONS } = require('./questions');
+const fs = require('fs');
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
+
+// Catalog loaded once at startup — single source of truth
+const CATALOG = JSON.parse(
+  fs.readFileSync(path.join(__dirname, 'preguntas-spiky.json'), 'utf8')
+);
+
+app.use(express.json());
+app.get('/api/questions', (_req, res) => res.json(CATALOG));
 
 const CLIENT_DIST = path.join(__dirname, '../client/dist');
 app.use(express.static(CLIENT_DIST));
 app.get('*', (req, res) => res.sendFile(path.join(CLIENT_DIST, 'index.html')));
 
 const rooms = new Map();
+const TIMER_SECS = 45;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -23,9 +32,6 @@ function shuffle(arr) {
   return a;
 }
 
-// sockets[0] y sockets[1] guardan la ws activa por slot.
-// null = ese slot está libre (o jugador desconectado).
-// Así si alguien recarga siempre recupera el mismo slot.
 function createRoom() {
   return {
     sockets: [null, null],
@@ -37,6 +43,7 @@ function createRoom() {
     answered: 0,
     revealed: false,
     matches: 0,
+    timer: null,
   };
 }
 
@@ -53,6 +60,27 @@ function broadcast(room, msg) {
 
 function playerCount(room) {
   return room.sockets.filter(Boolean).length;
+}
+
+function clearTimer(room) {
+  if (room.timer) {
+    clearInterval(room.timer);
+    room.timer = null;
+  }
+}
+
+function startTimer(room) {
+  clearTimer(room);
+  let secs = TIMER_SECS;
+  broadcast(room, { type: 'tick', secs });
+  room.timer = setInterval(() => {
+    secs--;
+    broadcast(room, { type: 'tick', secs });
+    if (secs <= 0) {
+      clearTimer(room);
+      revealAnswers(room);
+    }
+  }, 1000);
 }
 
 function getState(room, slot) {
@@ -81,6 +109,7 @@ function getState(room, slot) {
 
 function revealAnswers(room) {
   if (room.revealed) return;
+  clearTimer(room);
   room.revealed = true;
   const match =
     room.answers[0] !== null &&
@@ -111,6 +140,7 @@ function advanceQuestion(room) {
   } else {
     room.idx++;
     room.sockets.forEach((ws, slot) => sendTo(ws, getState(room, slot)));
+    startTimer(room);
   }
 }
 
@@ -129,7 +159,6 @@ wss.on('connection', (ws) => {
         if (!rooms.has(roomId)) rooms.set(roomId, createRoom());
         room = rooms.get(roomId);
 
-        // Asignar slot libre (el primero en null)
         const freeSlot = room.sockets.indexOf(null);
         if (freeSlot === -1) {
           sendTo(ws, { type: 'error', message: 'Sala llena' });
@@ -144,10 +173,12 @@ wss.on('connection', (ws) => {
 
       case 'start': {
         if (!room || room.started) return;
-        const cats = msg.categories?.length ? msg.categories : Object.keys(QUESTIONS);
+        const cats = msg.categories?.length ? msg.categories : Object.keys(CATALOG.categorias);
         const all = [];
         cats.forEach(cat => {
-          if (QUESTIONS[cat]) QUESTIONS[cat].forEach(q => all.push({ ...q, cat }));
+          if (CATALOG.categorias[cat]) {
+            CATALOG.categorias[cat].preguntas.forEach(q => all.push({ ...q, cat }));
+          }
         });
         room.questions = shuffle(all);
         room.idx = 0;
@@ -158,13 +189,14 @@ wss.on('connection', (ws) => {
         room.started = true;
         room.gameOver = false;
         room.sockets.forEach((ws, s) => sendTo(ws, getState(room, s)));
+        startTimer(room);
         break;
       }
 
       case 'answer': {
         if (!room || !room.started || room.revealed) return;
         if (slot < 0 || slot > 1) return;
-        if (room.answers[slot] !== null) return; // ya respondió
+        if (room.answers[slot] !== null) return;
         room.answers[slot] = msg.answer;
         room.answered++;
         broadcast(room, { type: 'answered_update', count: room.answered });
@@ -186,6 +218,7 @@ wss.on('connection', (ws) => {
 
       case 'reset': {
         if (!room) return;
+        clearTimer(room);
         room.started = false;
         room.gameOver = false;
         room.idx = 0;
@@ -203,8 +236,8 @@ wss.on('connection', (ws) => {
   ws.on('close', () => {
     if (!room || slot === -1) return;
     room.sockets[slot] = null;
-    // Borrar sala solo si ambos slots están vacíos
     if (room.sockets.every(s => s === null)) {
+      clearTimer(room);
       rooms.delete(roomId);
     } else {
       broadcast(room, { type: 'player_count', count: playerCount(room) });

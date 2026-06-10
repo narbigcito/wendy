@@ -802,6 +802,35 @@ button { font-family: inherit; cursor: pointer; }
   font-weight: 600;
 }
 
+/* ─── Timer row ─── */
+.timer-row {
+  display: flex;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+/* ─── Category card: description line ─── */
+.cat-desc {
+  font-size: 0.72rem;
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+/* ─── Muted hint (loading state) ─── */
+.muted-hint {
+  font-size: 0.85rem;
+  color: var(--dim);
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* ─── Allow cat-badge to wrap for long category names ─── */
+.cat-badge {
+  white-space: normal !important;
+  font-size: 0.72rem !important;
+  line-height: 1.2;
+}
+
 /* ─── Responsive tweaks ─── */
 @media (max-width: 360px) {
   .question-text { font-size: 1rem; }
