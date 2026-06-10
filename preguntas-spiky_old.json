@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "2.0",
-    "total": 76,
-    "descripcion": "Preguntas de alta intensidad para el juego ¿Nos conocemos? — incluye categoría picante Fuego & piel"
+    "version": "1.0",
+    "total": 64,
+    "descripcion": "Preguntas de alta intensidad para el juego ¿Nos conocemos? — diseñadas para generar fricción, revelación y conversación real"
   },
   "categorias": {
     "Poder & control": {
@@ -626,121 +626,6 @@
             "Lo trabajo — la rutina se construye",
             "Lo acepto, no todo puede ser intenso",
             "Me inquieta bastante"
-          ]
-        }
-      ]
-    },
-    "Fuego & piel": {
-      "color": "#E24B4A",
-      "bg": "#FCEBEB",
-      "descripcion": "Deseo, cuerpo y lo que pasa cuando la confianza llega",
-      "preguntas": [
-        {
-          "q": "¿Qué es lo primero en lo que te fijas físicamente de alguien que te atrae?",
-          "options": [
-            "Los ojos o la mirada",
-            "La boca y cómo habla",
-            "El cuerpo y cómo se mueve",
-            "La energía que proyecta, más que algo específico"
-          ]
-        },
-        {
-          "q": "¿Qué tan importante es el sexo oral para ti en la intimidad?",
-          "options": [
-            "Fundamental, es parte esencial",
-            "Me gusta mucho aunque no es lo único",
-            "Lo disfruto pero puedo prescindir",
-            "Es algo que prefiero no priorizar"
-          ]
-        },
-        {
-          "q": "¿Prefieres que la intimidad sea más planificada o totalmente espontánea?",
-          "options": [
-            "Espontánea siempre, la anticipación me mata",
-            "Planificada — la expectativa me enciende más",
-            "Un mix, depende del momento",
-            "No lo había pensado, fluyo con lo que pase"
-          ]
-        },
-        {
-          "q": "¿Qué tan abierto/a estás a usar juguetes o accesorios en la intimidad?",
-          "options": [
-            "Muy abierto/a, me parece natural y divertido",
-            "Lo consideraría con confianza y sin presión",
-            "No es algo que me llame especialmente",
-            "No, prefiero que sea solo entre los dos"
-          ]
-        },
-        {
-          "q": "¿Te excita la idea del sexo en lugares donde podrían cacharte?",
-          "options": [
-            "Sí, el riesgo lo hace más intenso",
-            "La idea me atrae aunque en la práctica me da miedo",
-            "No, prefiero privacidad total",
-            "Lo he hecho y fue memorable"
-          ]
-        },
-        {
-          "q": "¿Qué tan seguido necesitas el contacto físico (más allá del sexo) para sentirte conectado/a?",
-          "options": [
-            "Mucho, soy muy táctil",
-            "Bastante, aunque varía según el momento",
-            "Lo valoro pero no lo necesito tanto",
-            "Soy de poco contacto físico en general"
-          ]
-        },
-        {
-          "q": "¿Qué tan cómodo/a te sientes recibiendo un cumplido sobre tu cuerpo?",
-          "options": [
-            "Muy cómodo/a, me gusta escucharlo",
-            "Me da algo de pena aunque lo agradezco",
-            "Me incomoda bastante",
-            "Depende de quién venga y cómo"
-          ]
-        },
-        {
-          "q": "¿Qué tan importante es para ti el preámbulo antes de la intimidad?",
-          "options": [
-            "Fundamental, es la mejor parte",
-            "Muy importante aunque no siempre se puede",
-            "Lo disfruto pero puedo sin él",
-            "Prefiero ir directo/a al punto"
-          ]
-        },
-        {
-          "q": "¿Sexting: sí o no?",
-          "options": [
-            "Sí, me parece hot y divertido",
-            "Sí, con confianza total y sin capturas",
-            "Me da algo de ansiedad aunque lo entiendo",
-            "No, prefiero que todo pase en persona"
-          ]
-        },
-        {
-          "q": "¿Qué tan abierto/a estás a explorar roles en la cama (personajes, escenarios, disfraces)?",
-          "options": [
-            "Mucho, me encanta la imaginación en la intimidad",
-            "Lo intentaría si hay confianza y sin presión",
-            "No es lo mío aunque no lo juzgo",
-            "Jamás — me sacaría completamente del momento"
-          ]
-        },
-        {
-          "q": "¿Qué parte de tu cuerpo te da más seguridad en la intimidad?",
-          "options": [
-            "Mi mirada o mi expresión",
-            "Mi cuerpo en general, me siento bien conmigo",
-            "No tengo una sola — depende del momento",
-            "Honestamente, todavía trabajo en esa seguridad"
-          ]
-        },
-        {
-          "q": "Si tu pareja te pide algo en la intimidad que nunca has hecho, ¿cuál es tu primera reacción?",
-          "options": [
-            "Curiosidad — quiero entender qué es y por qué le atrae",
-            "Lo considero dependiendo de qué sea",
-            "Cierta incomodidad aunque intento ser abierto/a",
-            "Necesito pensarlo mucho antes de responder"
           ]
         }
       ]
