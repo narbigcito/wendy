@@ -14,9 +14,15 @@ const initialState = {
   gameOver: false,
   questions: [],
   idx: 0,
-  timerSecs: 60,
-  skips: 3,
+  timerSecs: 45,
   playerCount: 0,
+  slot: null,
+  myAnswer: null,
+  partnerAnswer: null,
+  revealed: false,
+  answeredCount: 0,
+  matches: 0,
+  match: false,
 }
 
 function FloatingReactions({ reactions }) {
@@ -47,7 +53,6 @@ export default function App() {
     return () => { isMounted.current = false }
   }, [])
 
-  // Init room ID from URL or generate new
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     let id = params.get('room')
@@ -58,14 +63,15 @@ export default function App() {
     setRoomId(id)
   }, [])
 
-  // WebSocket connection with auto-reconnect
   useEffect(() => {
     if (!roomId) return
 
     function connect() {
       if (!isMounted.current) return
 
-      const wsUrl = `ws://${window.location.hostname}:3000`
+      const proto = window.location.protocol === 'https:' ? 'wss' : 'ws'
+      const port = window.location.port ? `:${window.location.port}` : ''
+      const wsUrl = `${proto}://${window.location.hostname}${port}`
       const ws = new WebSocket(wsUrl)
       wsRef.current = ws
 
@@ -84,27 +90,48 @@ export default function App() {
           setState(prev => ({
             ...prev,
             started: msg.started,
-            gameOver: msg.gameOver || false,
+            gameOver: msg.gameOver ?? false,
             questions: msg.questions ?? prev.questions,
             idx: msg.idx,
             timerSecs: msg.timerSecs,
-            skips: msg.skips,
             playerCount: msg.playerCount,
+            slot: msg.slot ?? prev.slot,
+            answeredCount: msg.answeredCount ?? 0,
+            revealed: msg.revealed ?? false,
+            matches: msg.matches ?? prev.matches,
+            myAnswer: msg.myAnswer ?? null,
+            partnerAnswer: msg.partnerAnswer ?? null,
+            match: msg.match ?? false,
           }))
         } else if (msg.type === 'player_count') {
           setState(prev => ({ ...prev, playerCount: msg.count }))
         } else if (msg.type === 'tick') {
           setState(prev => ({ ...prev, timerSecs: msg.secs }))
+        } else if (msg.type === 'answered_update') {
+          setState(prev => ({ ...prev, answeredCount: msg.count }))
+        } else if (msg.type === 'reveal') {
+          setState(prev => ({
+            ...prev,
+            revealed: true,
+            myAnswer: msg.myAnswer,
+            partnerAnswer: msg.partnerAnswer,
+            match: msg.match,
+            matches: msg.matches,
+          }))
         } else if (msg.type === 'game_over') {
-          setState(prev => ({ ...prev, started: false, gameOver: true }))
+          setState(prev => ({
+            ...prev,
+            started: false,
+            gameOver: true,
+            matches: msg.matches,
+            questions: prev.questions.length ? prev.questions : [{ length: msg.total }],
+          }))
         } else if (msg.type === 'reaction') {
           const id = reactionCounter.current++
           const x = 10 + Math.random() * 80
           setReactions(prev => [...prev, { id, emoji: msg.emoji, x }])
           setTimeout(() => {
-            if (isMounted.current) {
-              setReactions(prev => prev.filter(r => r.id !== id))
-            }
+            if (isMounted.current) setReactions(prev => prev.filter(r => r.id !== id))
           }, 2500)
         } else if (msg.type === 'error') {
           alert(msg.message)
@@ -134,6 +161,11 @@ export default function App() {
     }
   }, [])
 
+  const handleAnswer = useCallback((answerIdx) => {
+    setState(prev => ({ ...prev, myAnswer: answerIdx }))
+    send({ type: 'answer', answer: answerIdx })
+  }, [send])
+
   const shareUrl = roomId
     ? `${window.location.origin}${window.location.pathname}?room=${roomId}`
     : ''
@@ -153,6 +185,7 @@ export default function App() {
         <FloatingReactions reactions={reactions} />
         <EndScreen
           total={state.questions.length}
+          matches={state.matches}
           onReset={() => send({ type: 'reset' })}
         />
       </div>
@@ -167,11 +200,15 @@ export default function App() {
           question={state.questions[state.idx]}
           idx={state.idx}
           total={state.questions.length}
-          timerSecs={state.timerSecs}
-          skips={state.skips}
           playerCount={state.playerCount}
+          myAnswer={state.myAnswer}
+          partnerAnswer={state.partnerAnswer}
+          answeredCount={state.answeredCount}
+          revealed={state.revealed}
+          match={state.match}
+          matches={state.matches}
+          onAnswer={handleAnswer}
           onNext={() => send({ type: 'next' })}
-          onSkip={() => send({ type: 'skip' })}
           onReaction={(emoji) => send({ type: 'reaction', emoji })}
         />
       </div>

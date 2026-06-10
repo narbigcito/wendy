@@ -1,17 +1,18 @@
 const express = require('express');
 const { WebSocketServer, WebSocket } = require('ws');
 const http = require('http');
+const path = require('path');
 const { QUESTIONS } = require('./questions');
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocketServer({ server });
 
-const rooms = new Map();
+const CLIENT_DIST = path.join(__dirname, '../client/dist');
+app.use(express.static(CLIENT_DIST));
+app.get('*', (req, res) => res.sendFile(path.join(CLIENT_DIST, 'index.html')));
 
-function genRoomId() {
-  return Math.random().toString(36).substring(2, 8).toUpperCase();
-}
+const rooms = new Map();
 
 function shuffle(arr) {
   const a = [...arr];
@@ -22,76 +23,101 @@ function shuffle(arr) {
   return a;
 }
 
+// sockets[0] y sockets[1] guardan la ws activa por slot.
+// null = ese slot está libre (o jugador desconectado).
+// Así si alguien recarga siempre recupera el mismo slot.
 function createRoom() {
   return {
-    players: [],
+    sockets: [null, null],
     started: false,
     gameOver: false,
     questions: [],
     idx: 0,
-    timerSecs: 60,
-    skips: 3,
-    timerInterval: null,
+    answers: [null, null],
+    answered: 0,
+    revealed: false,
+    matches: 0,
   };
+}
+
+function sendTo(ws, msg) {
+  if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(msg));
 }
 
 function broadcast(room, msg) {
   const data = JSON.stringify(msg);
-  room.players.forEach(ws => {
-    if (ws.readyState === WebSocket.OPEN) ws.send(data);
+  room.sockets.forEach(ws => {
+    if (ws && ws.readyState === WebSocket.OPEN) ws.send(data);
   });
 }
 
-function getState(room) {
-  return {
+function playerCount(room) {
+  return room.sockets.filter(Boolean).length;
+}
+
+function getState(room, slot) {
+  const base = {
     type: 'state',
     started: room.started,
     gameOver: room.gameOver,
     questions: room.questions,
     idx: room.idx,
-    timerSecs: room.timerSecs,
-    skips: room.skips,
-    playerCount: room.players.length,
+    playerCount: playerCount(room),
+    slot,
+    answeredCount: room.answered,
+    revealed: room.revealed,
+    matches: room.matches,
+    myAnswer: room.answers[slot],
   };
-}
-
-function clearTimer(room) {
-  if (room.timerInterval) {
-    clearInterval(room.timerInterval);
-    room.timerInterval = null;
+  if (room.revealed) {
+    base.partnerAnswer = room.answers[1 - slot];
+    base.match =
+      room.answers[0] !== null &&
+      room.answers[1] !== null &&
+      room.answers[0] === room.answers[1];
   }
+  return base;
 }
 
-function startTimer(room) {
-  clearTimer(room);
-  room.timerSecs = 60;
-  room.timerInterval = setInterval(() => {
-    room.timerSecs--;
-    broadcast(room, { type: 'tick', secs: room.timerSecs });
-    if (room.timerSecs <= 0) {
-      clearTimer(room);
-      advanceQuestion(room);
-    }
-  }, 1000);
+function revealAnswers(room) {
+  if (room.revealed) return;
+  room.revealed = true;
+  const match =
+    room.answers[0] !== null &&
+    room.answers[1] !== null &&
+    room.answers[0] === room.answers[1];
+  if (match) room.matches++;
+
+  room.sockets.forEach((ws, slot) => {
+    sendTo(ws, {
+      type: 'reveal',
+      myAnswer: room.answers[slot],
+      partnerAnswer: room.answers[1 - slot],
+      match,
+      matches: room.matches,
+    });
+  });
 }
 
-function advanceQuestion(room, isSkip = false) {
-  if (isSkip) room.skips--;
+function advanceQuestion(room) {
+  room.answers = [null, null];
+  room.answered = 0;
+  room.revealed = false;
+
   if (room.idx + 1 >= room.questions.length) {
-    clearTimer(room);
     room.started = false;
     room.gameOver = true;
-    broadcast(room, { type: 'game_over' });
+    broadcast(room, { type: 'game_over', matches: room.matches, total: room.questions.length });
   } else {
     room.idx++;
-    startTimer(room);
-    broadcast(room, getState(room));
+    room.sockets.forEach((ws, slot) => sendTo(ws, getState(room, slot)));
   }
 }
 
 wss.on('connection', (ws) => {
   let roomId = null;
   let room = null;
+  let slot = -1;
 
   ws.on('message', (raw) => {
     let msg;
@@ -102,13 +128,17 @@ wss.on('connection', (ws) => {
         roomId = msg.roomId;
         if (!rooms.has(roomId)) rooms.set(roomId, createRoom());
         room = rooms.get(roomId);
-        if (room.players.length >= 2) {
-          ws.send(JSON.stringify({ type: 'error', message: 'Sala llena' }));
+
+        // Asignar slot libre (el primero en null)
+        const freeSlot = room.sockets.indexOf(null);
+        if (freeSlot === -1) {
+          sendTo(ws, { type: 'error', message: 'Sala llena' });
           return;
         }
-        room.players.push(ws);
-        ws.send(JSON.stringify(getState(room)));
-        broadcast(room, { type: 'player_count', count: room.players.length });
+        slot = freeSlot;
+        room.sockets[slot] = ws;
+        sendTo(ws, getState(room, slot));
+        broadcast(room, { type: 'player_count', count: playerCount(room) });
         break;
       }
 
@@ -117,29 +147,34 @@ wss.on('connection', (ws) => {
         const cats = msg.categories?.length ? msg.categories : Object.keys(QUESTIONS);
         const all = [];
         cats.forEach(cat => {
-          if (QUESTIONS[cat]) {
-            QUESTIONS[cat].forEach(q => all.push({ ...q, category: cat }));
-          }
+          if (QUESTIONS[cat]) QUESTIONS[cat].forEach(q => all.push({ ...q, cat }));
         });
         room.questions = shuffle(all);
         room.idx = 0;
-        room.skips = 3;
+        room.answers = [null, null];
+        room.answered = 0;
+        room.revealed = false;
+        room.matches = 0;
         room.started = true;
         room.gameOver = false;
-        broadcast(room, getState(room));
-        startTimer(room);
+        room.sockets.forEach((ws, s) => sendTo(ws, getState(room, s)));
+        break;
+      }
+
+      case 'answer': {
+        if (!room || !room.started || room.revealed) return;
+        if (slot < 0 || slot > 1) return;
+        if (room.answers[slot] !== null) return; // ya respondió
+        room.answers[slot] = msg.answer;
+        room.answered++;
+        broadcast(room, { type: 'answered_update', count: room.answered });
+        if (room.answered >= 2) revealAnswers(room);
         break;
       }
 
       case 'next': {
-        if (!room || !room.started) return;
+        if (!room || !room.revealed) return;
         advanceQuestion(room);
-        break;
-      }
-
-      case 'skip': {
-        if (!room || !room.started || room.skips <= 0) return;
-        advanceQuestion(room, true);
         break;
       }
 
@@ -151,27 +186,28 @@ wss.on('connection', (ws) => {
 
       case 'reset': {
         if (!room) return;
-        clearTimer(room);
         room.started = false;
         room.gameOver = false;
         room.idx = 0;
         room.questions = [];
-        room.skips = 3;
-        room.timerSecs = 60;
-        broadcast(room, getState(room));
+        room.answers = [null, null];
+        room.answered = 0;
+        room.revealed = false;
+        room.matches = 0;
+        room.sockets.forEach((ws, s) => sendTo(ws, getState(room, s)));
         break;
       }
     }
   });
 
   ws.on('close', () => {
-    if (!room) return;
-    room.players = room.players.filter(p => p !== ws);
-    if (room.players.length === 0) {
-      clearTimer(room);
+    if (!room || slot === -1) return;
+    room.sockets[slot] = null;
+    // Borrar sala solo si ambos slots están vacíos
+    if (room.sockets.every(s => s === null)) {
       rooms.delete(roomId);
     } else {
-      broadcast(room, { type: 'player_count', count: room.players.length });
+      broadcast(room, { type: 'player_count', count: playerCount(room) });
     }
   });
 

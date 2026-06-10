@@ -22,7 +22,7 @@ export default function Lobby({ shareUrl, playerCount, selectedCategories, onTog
     }
   }
 
-  const totalQuestions = selectedCategories.size * 12
+  const totalQuestions = selectedCategories.size * 10
 
   return (
     <div className="lobby">

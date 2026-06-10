@@ -1,14 +1,14 @@
 const R = 45
-const C = 2 * Math.PI * R  // ≈ 282.74
+const C = 2 * Math.PI * R
 
 function timerColor(secs) {
-  if (secs > 30) return '#8B5CF6'
-  if (secs > 10) return '#F59E0B'
+  if (secs > 20) return '#8B5CF6'
+  if (secs > 8) return '#F59E0B'
   return '#EF4444'
 }
 
-export default function Timer({ secs }) {
-  const pct = Math.max(0, Math.min(1, secs / 60))
+export default function Timer({ secs, maxSecs = 45 }) {
+  const pct = Math.max(0, Math.min(1, secs / maxSecs))
   const offset = C * (1 - pct)
   const color = timerColor(secs)
 
