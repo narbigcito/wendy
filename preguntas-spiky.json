@@ -1,0 +1,634 @@
+{
+  "meta": {
+    "version": "1.0",
+    "total": 64,
+    "descripcion": "Preguntas de alta intensidad para el juego ¿Nos conocemos? — diseñadas para generar fricción, revelación y conversación real"
+  },
+  "categorias": {
+    "Poder & control": {
+      "color": "#7F77DD",
+      "bg": "#EEEDFE",
+      "descripcion": "Dinámicas de quién lleva las riendas",
+      "preguntas": [
+        {
+          "q": "¿Qué tan dispuesto/a estás a cambiar algo de ti mismo/a por una pareja?",
+          "options": [
+            "Nada — quien me quiere me acepta como soy",
+            "Cosas superficiales sí, lo esencial no",
+            "Depende de si el cambio me mejora a mí también",
+            "Bastante — el amor implica transformarse"
+          ]
+        },
+        {
+          "q": "Si tu pareja gana mucho más dinero que tú, ¿cómo te afecta eso?",
+          "options": [
+            "Me incomoda, aunque no quiera que me importe",
+            "Para nada, es irrelevante",
+            "Depende de cómo lo maneje él/ella",
+            "Me motivaría a crecer, no me afecta negativamente"
+          ]
+        },
+        {
+          "q": "¿Revisarías el celular de tu pareja si pudieras hacerlo sin que se enterara?",
+          "options": [
+            "No, jamás — es una línea que no cruzo",
+            "Probablemente sí si hay algo raro",
+            "Sí, si la desconfianza ya está ahí de todas formas",
+            "Nunca lo había pensado en serio"
+          ]
+        },
+        {
+          "q": "¿Qué tan territorial eres con tu pareja?",
+          "options": [
+            "Nada, la confianza es todo",
+            "Un poco, soy humano/a",
+            "Bastante, aunque trabajo en ello",
+            "No lo llamaría territorial sino atento/a"
+          ]
+        },
+        {
+          "q": "Si tu pareja tiene un/a amigo/a que claramente le atrae, ¿qué haces?",
+          "options": [
+            "Nada, confío",
+            "Lo hablo directamente con mi pareja",
+            "Estoy pendiente sin decir nada",
+            "Le pido que ponga límites"
+          ]
+        },
+        {
+          "q": "¿Cuánto peso le das a la opinión de tu pareja sobre tus decisiones personales?",
+          "options": [
+            "Mucho — somos un equipo",
+            "Lo escucho pero decido yo",
+            "Depende de qué tan grande sea la decisión",
+            "Poco — mi vida es mía"
+          ]
+        },
+        {
+          "q": "¿Qué tan fácil te resulta pedir ayuda cuando la necesitas?",
+          "options": [
+            "Fácil, no me cuesta",
+            "Me cuesta pero lo hago",
+            "Prefiero resolver solo/a aunque tarde más",
+            "Casi nunca lo hago"
+          ]
+        },
+        {
+          "q": "¿Cuánto te cuesta decir que no a alguien que quieres?",
+          "options": [
+            "Poco, tengo límites claros",
+            "Me cuesta pero lo logro",
+            "Mucho — el conflicto me pesa",
+            "Casi no puedo, termino cediendo"
+          ]
+        },
+        {
+          "q": "¿Qué tan seguido te disculpas por cosas que no son tu culpa?",
+          "options": [
+            "Casi nunca",
+            "A veces, para evitar tensión",
+            "Bastante seguido",
+            "Es algo que estoy trabajando"
+          ]
+        },
+        {
+          "q": "Si tu pareja y tu familia no se llevan bien, ¿qué haces?",
+          "options": [
+            "Pongo límites claros con mi familia",
+            "Busco mediar sin tomar partido",
+            "Le doy prioridad a quien creo que tiene razón",
+            "Me paralizo y no sé qué hacer"
+          ]
+        }
+      ]
+    },
+    "Dinero sin filtro": {
+      "color": "#BA7517",
+      "bg": "#FAEEDA",
+      "descripcion": "Lo que nadie pregunta en las primeras citas",
+      "preguntas": [
+        {
+          "q": "¿Cuánto dinero necesitarías para sentirte realmente tranquilo/a?",
+          "options": [
+            "El suficiente para no preocuparme mes a mes",
+            "Un fondo de emergencia sólido y sin deudas",
+            "Libertad total — no depender de nadie ni de nada",
+            "No creo que el número me daría tranquilidad real"
+          ]
+        },
+        {
+          "q": "¿Le prestarías dinero a tu pareja?",
+          "options": [
+            "Sí, sin pensarlo si puedo",
+            "Sí pero con acuerdo claro de devolución",
+            "Lo daría como regalo o no lo daría",
+            "Depende del monto y del momento de la relación"
+          ]
+        },
+        {
+          "q": "¿Qué tan honesto/a serías con tu pareja sobre tus deudas reales?",
+          "options": [
+            "100% desde el inicio",
+            "Cuando la relación sea seria",
+            "Solo si afecta nuestra vida juntos",
+            "Es información mía, no necesariamente de la pareja"
+          ]
+        },
+        {
+          "q": "¿Estarías con alguien que gana significativamente menos que tú de forma indefinida?",
+          "options": [
+            "Sí, si hay proyecto y esfuerzo",
+            "Sí, el dinero no es criterio para mí",
+            "Depende de las circunstancias",
+            "Sería un factor importante a considerar"
+          ]
+        },
+        {
+          "q": "¿Pagarías unas vacaciones caras para los dos si tu pareja no puede?",
+          "options": [
+            "Sí, si quiero ir y quiero que venga",
+            "Sí pero esperaría que en otro momento equilibre",
+            "Preferiría esperar a que los dos podamos",
+            "Me generaría algo de tensión aunque lo haría"
+          ]
+        },
+        {
+          "q": "¿Cuánto de tus finanzas reales sabe tu familia?",
+          "options": [
+            "Todo, somos muy abiertos",
+            "Lo general, no los números exactos",
+            "Muy poco, es privado",
+            "Nada — prefiero que no se metan"
+          ]
+        },
+        {
+          "q": "¿Qué tan seguido gastas dinero para sentirte mejor emocionalmente?",
+          "options": [
+            "Casi nunca",
+            "De vez en cuando",
+            "Con cierta frecuencia",
+            "Es algo que reconozco y trabajo"
+          ]
+        },
+        {
+          "q": "¿Tienes un plan de retiro o ahorros a largo plazo?",
+          "options": [
+            "Sí, lo tengo activo",
+            "Lo he pensado pero no he empezado",
+            "No, vivo más en el presente",
+            "Es algo que me genera ansiedad pensar"
+          ]
+        },
+        {
+          "q": "¿Qué tan cómodo/a te sientes hablando de dinero con una pareja?",
+          "options": [
+            "Muy cómodo/a, prefiero claridad",
+            "Me cuesta un poco pero lo hago",
+            "Me incomoda bastante",
+            "Depende del momento de la relación"
+          ]
+        },
+        {
+          "q": "Si tu pareja toma una decisión financiera importante sin consultarte, ¿cómo reaccionas?",
+          "options": [
+            "Lo hablo directo, me parece importante decidir juntos",
+            "Depende del monto y la decisión",
+            "Me molesta pero no siempre lo digo",
+            "Respeto su autonomía, es su dinero"
+          ]
+        }
+      ]
+    },
+    "Sexualidad sin rodeos": {
+      "color": "#993556",
+      "bg": "#FBEAF0",
+      "descripcion": "Lo que importa saber y nadie pregunta directo",
+      "preguntas": [
+        {
+          "q": "¿Qué tan dispuesto/a estás a hablar de lo que te gusta en la cama desde el inicio?",
+          "options": [
+            "Completamente — prefiero claridad desde antes",
+            "Con confianza básica ya puedo hablarlo",
+            "Prefiero que fluya y se descubra solo",
+            "Me cuesta mucho aunque quiero lograrlo"
+          ]
+        },
+        {
+          "q": "¿Qué harías si en la intimidad tu pareja pide algo que no quieres hacer?",
+          "options": [
+            "Lo digo directamente y sin drama",
+            "Lo digo pero me queda la incomodidad de haberlo decepcionado/a",
+            "Lo evito sin decirlo explícitamente",
+            "Dependería de qué tan límite sea para mí"
+          ]
+        },
+        {
+          "q": "¿Cuánto te importa el historial sexual de tu pareja?",
+          "options": [
+            "Nada, el pasado es pasado",
+            "Me importa la honestidad, no el número",
+            "Más de lo que quisiera que me importara",
+            "Depende de qué tipo de historial"
+          ]
+        },
+        {
+          "q": "¿Explorarías una dinámica dominante/sumiso con la persona correcta?",
+          "options": [
+            "Sí, me atrae mucho esa exploración",
+            "Lo consideraría con mucha confianza previa",
+            "No es algo que me llame pero no lo juzgo",
+            "No, no va con lo que soy"
+          ]
+        },
+        {
+          "q": "¿Qué tan seguido necesitas intimidad física para sentirte bien en una relación?",
+          "options": [
+            "Muy seguido — es un lenguaje importante para mí",
+            "Regularmente pero no es lo primero",
+            "Cuando hay conexión real, no por rutina",
+            "Puedo estar bien con poca, no es prioritario"
+          ]
+        },
+        {
+          "q": "¿Hablarías de una fantasía que nunca has cumplido?",
+          "options": [
+            "Sí, si hay confianza y sin miedo al juicio",
+            "Solo si mi pareja pregunta primero",
+            "Probablemente no, es muy íntimo",
+            "No tengo ninguna que me genere conflicto compartirla"
+          ]
+        },
+        {
+          "q": "¿Qué tan cómodo/a te sientes con tu propio cuerpo en la intimidad?",
+          "options": [
+            "Muy cómodo/a, me siento bien conmigo",
+            "Bien en general aunque con inseguridades",
+            "Me cuesta, tengo trabajo por hacer ahí",
+            "Depende mucho de con quién esté"
+          ]
+        },
+        {
+          "q": "¿Qué tan seguido necesitas sentirte deseado/a para estar bien en una relación?",
+          "options": [
+            "Mucho, es fundamental para mí",
+            "Bastante, aunque no es lo único",
+            "Lo valoro pero puedo sin ello",
+            "No lo había pensado como necesidad"
+          ]
+        },
+        {
+          "q": "¿Qué harías si la atracción física disminuye con el tiempo en tu relación?",
+          "options": [
+            "Lo hablaría directamente con mi pareja",
+            "Trabajaría en reavivarla activamente",
+            "Lo aceptaría como algo natural",
+            "Sería una señal importante de alerta para mí"
+          ]
+        },
+        {
+          "q": "¿Qué tan cómodo/a estás con que tu pareja hable de sexo abiertamente?",
+          "options": [
+            "Muy cómodo/a, me parece sano",
+            "Bien dentro de ciertos límites",
+            "Me incomoda un poco aunque entiendo que es normal",
+            "Prefiero que sea algo más implícito entre nosotros"
+          ]
+        }
+      ]
+    },
+    "Pasado & heridas": {
+      "color": "#D85A30",
+      "bg": "#FAECE7",
+      "descripcion": "De dónde venimos y qué cargamos",
+      "preguntas": [
+        {
+          "q": "¿Cuánto de tu forma de relacionarte viene de cómo fueron tus papás en pareja?",
+          "options": [
+            "Mucho — lo veo claramente en mí",
+            "Algo, aunque he trabajado en cambiarlo",
+            "Poco, tomé caminos distintos a los de ellos",
+            "No lo he analizado lo suficiente para saberlo"
+          ]
+        },
+        {
+          "q": "¿Has estado en una relación que te dejó realmente dañado/a?",
+          "options": [
+            "Sí, y todavía cargo algo de eso",
+            "Sí, pero ya lo procesé",
+            "No tan dañado/a, pero sí marcado/a",
+            "No, he tenido suerte en ese sentido"
+          ]
+        },
+        {
+          "q": "¿Qué tan seguido aparece tu pasado en tus relaciones actuales?",
+          "options": [
+            "Más de lo que quisiera",
+            "Aparece pero ya lo identifico cuando pasa",
+            "Poco, creo que lo tengo resuelto",
+            "No lo sé con certeza"
+          ]
+        },
+        {
+          "q": "¿Has traicionado a alguien que te amaba?",
+          "options": [
+            "Sí, y es algo que cargo",
+            "Depende de qué se entienda por traición",
+            "No en lo fundamental",
+            "No, o al menos eso creo"
+          ]
+        },
+        {
+          "q": "¿Cuándo fue la última vez que pediste perdón de verdad?",
+          "options": [
+            "Hace poco — soy de los que se disculpan",
+            "Hace tiempo, no me pasa muy seguido",
+            "Me cuesta mucho pedirlo aunque sepa que debo",
+            "No recuerdo bien"
+          ]
+        },
+        {
+          "q": "¿Tu familia sabe cómo eres realmente en tus relaciones?",
+          "options": [
+            "Sí, somos muy abiertos",
+            "Saben lo general pero no los detalles",
+            "Casi nada — lo mío es mío",
+            "Se imaginan cosas que no son tan reales"
+          ]
+        },
+        {
+          "q": "¿Qué tan seguido comparas tus relaciones actuales con las del pasado?",
+          "options": [
+            "Casi nunca",
+            "A veces, sin querer",
+            "Bastante, aunque no quiero",
+            "Lo uso como referencia consciente"
+          ]
+        },
+        {
+          "q": "¿Has cortado a alguien importante de tu vida? ¿Cómo fue?",
+          "options": [
+            "Sí, y fue necesario aunque dolió",
+            "Sí, y todavía me pesa",
+            "No, soy de los que mantienen vínculos",
+            "No he tenido que hacerlo"
+          ]
+        },
+        {
+          "q": "¿Qué tan seguido te preguntas si mereces lo bueno que te pasa?",
+          "options": [
+            "Poco, tengo autoestima sana",
+            "A veces, en momentos de inseguridad",
+            "Bastante seguido",
+            "Es algo en lo que estoy trabajando"
+          ]
+        }
+      ]
+    },
+    "Límites & negociables": {
+      "color": "#1D9E75",
+      "bg": "#E1F5EE",
+      "descripcion": "Lo que aceptarías y lo que no tiene vuelta",
+      "preguntas": [
+        {
+          "q": "¿Qué tan abierto/a estás a una relación no monógama si tu pareja lo propone?",
+          "options": [
+            "No, eso no va conmigo",
+            "Lo escucharía pero casi seguro no",
+            "Lo consideraría si hay honestidad total",
+            "Me lo he preguntado seriamente"
+          ]
+        },
+        {
+          "q": "¿Qué harías si descubres que tu pareja te mintió en algo importante pero no en infidelidad?",
+          "options": [
+            "Terminaría — la honestidad no es negociable",
+            "Dependería del tipo de mentira y la razón",
+            "Lo hablaría y le daría oportunidad",
+            "Depende de si yo también le he mentido"
+          ]
+        },
+        {
+          "q": "¿Estarías en una relación a distancia por tiempo indefinido?",
+          "options": [
+            "No, necesito presencia física",
+            "Por un tiempo definido sí",
+            "Podría si hay proyecto claro",
+            "Lo he hecho y no volvería a hacerlo"
+          ]
+        },
+        {
+          "q": "¿Qué tan negociable es para ti tener o no tener hijos?",
+          "options": [
+            "No es negociable — ya sé lo que quiero",
+            "Tengo preferencia pero podría conversarse",
+            "Depende totalmente de la persona y el momento",
+            "Todavía no lo tengo claro"
+          ]
+        },
+        {
+          "q": "¿Qué límite tuyo crees que podría costarle a una pareja aceptar?",
+          "options": [
+            "Mi necesidad de espacio e independencia",
+            "Mi forma de manejar los conflictos",
+            "Mi relación con el dinero",
+            "Algo de mi pasado o mi forma de ser"
+          ]
+        },
+        {
+          "q": "¿Seguirías con alguien que consume alcohol o drogas recreativas regularmente?",
+          "options": [
+            "No, es un límite claro",
+            "Depende del nivel y si afecta la relación",
+            "No me importa si es responsable",
+            "No lo he pensado como un criterio"
+          ]
+        },
+        {
+          "q": "¿Qué tan rápido sabes si alguien no es para ti?",
+          "options": [
+            "Rápido, confío mucho en mi intuición",
+            "Me toma tiempo, le doy oportunidad",
+            "A veces sé pronto y lo ignoro",
+            "Me cuesta mucho discernirlo"
+          ]
+        },
+        {
+          "q": "¿Estarías con alguien que tiene hijos de otra relación?",
+          "options": [
+            "Sí, sin problema",
+            "Dependería de la situación y la dinámica",
+            "Me generaría dudas importantes",
+            "No, es un límite para mí"
+          ]
+        }
+      ]
+    },
+    "Identidad & sombra": {
+      "color": "#533AB7",
+      "bg": "#EEEDFE",
+      "descripcion": "Lo que sabemos y lo que preferimos no ver de nosotros mismos",
+      "preguntas": [
+        {
+          "q": "¿Qué rasgo tuyo reconoces que puede ser difícil para una pareja?",
+          "options": [
+            "Mi tendencia a cerrarme cuando algo me duele",
+            "Que soy muy intenso/a o muy demandante",
+            "Que a veces priorizo mi espacio sobre la relación",
+            "Que tardo en confiar de verdad"
+          ]
+        },
+        {
+          "q": "¿Qué tan consciente eres de tus patrones en las relaciones?",
+          "options": [
+            "Bastante — lo he trabajado intencionalmente",
+            "Algo — los veo cuando ya pasaron",
+            "Poco, todavía me sorprendo",
+            "Estoy empezando a verlos"
+          ]
+        },
+        {
+          "q": "¿Has estado en terapia o lo considerarías?",
+          "options": [
+            "Sí, y lo recomiendo completamente",
+            "Lo he considerado pero no he dado el paso",
+            "No lo necesito o no creo en eso",
+            "Depende de la situación"
+          ]
+        },
+        {
+          "q": "¿Cuándo fue la última vez que alguien te dijo algo de ti que no querías escuchar y tenía razón?",
+          "options": [
+            "Hace poco, y lo pude recibir bien",
+            "Hace poco, y me costó mucho",
+            "Hace tiempo — no me pasa seguido",
+            "No recuerdo que alguien lo haya hecho directamente"
+          ]
+        },
+        {
+          "q": "¿Qué tan honesto/a eres contigo mismo/a sobre lo que quieres realmente?",
+          "options": [
+            "Mucho — me conozco bastante bien",
+            "Bastante aunque hay cosas que evito ver",
+            "Poco, me cuesta distinguir lo que quiero de lo que creo que debería querer",
+            "Estoy en proceso de entenderlo"
+          ]
+        },
+        {
+          "q": "¿Qué versión tuya sale cuando estás bajo presión o estrés intenso?",
+          "options": [
+            "Me cierro y necesito aislamiento",
+            "Me vuelvo más controlador/a o ansioso/a",
+            "Me agoto pero sigo funcionando",
+            "Exploto y después me arrepiento"
+          ]
+        },
+        {
+          "q": "¿Qué tan diferente eres en público vs cuando estás solo/a o en confianza?",
+          "options": [
+            "Muy similar, soy consistente",
+            "Algo diferente, me abro más en privado",
+            "Bastante diferente, el público me cambia",
+            "Ni yo lo sé del todo bien"
+          ]
+        },
+        {
+          "q": "¿Qué tan cómodo/a te sientes con el silencio y la soledad?",
+          "options": [
+            "Muy cómodo/a, lo necesito",
+            "Bien en dosis, luego necesito contacto",
+            "Me incomoda estar mucho tiempo solo/a",
+            "Depende de mi estado emocional"
+          ]
+        },
+        {
+          "q": "¿Tienes una versión de ti que casi nadie conoce?",
+          "options": [
+            "Sí, y prefiero mantenerla íntima",
+            "Sí, pero no me la guardo con quien confío",
+            "No mucho, soy bastante transparente",
+            "Creo que sí pero no sé definirla bien"
+          ]
+        }
+      ]
+    },
+    "Fricciones reales": {
+      "color": "#639922",
+      "bg": "#EAF3DE",
+      "descripcion": "Las cosas pequeñas que destruyen relaciones grandes",
+      "preguntas": [
+        {
+          "q": "¿Qué tan ordenado/a o caótico/a eres en tu espacio?",
+          "options": [
+            "Muy ordenado/a, el desorden me altera",
+            "Ordenado/a en lo importante",
+            "Funciono bien en el caos",
+            "Caótico/a pero sé dónde está todo"
+          ]
+        },
+        {
+          "q": "¿Cómo reaccionas cuando alguien llega tarde a algo contigo?",
+          "options": [
+            "Me molesta mucho aunque no lo diga",
+            "Lo digo sin drama y sigo adelante",
+            "Me importa poco, soy flexible con el tiempo",
+            "Depende de cuánto y la razón"
+          ]
+        },
+        {
+          "q": "¿Qué tan seguido revisas tu celular cuando estás con alguien?",
+          "options": [
+            "Muy poco, le doy presencia real a quien está conmigo",
+            "Lo intento pero me cuesta",
+            "Bastante, es parte de cómo funciono",
+            "Depende de si estoy esperando algo importante"
+          ]
+        },
+        {
+          "q": "¿Qué tan compatible tienes que ser con tu pareja en gustos y hobbies?",
+          "options": [
+            "Muy compatible — quiero compartir el mundo cotidiano",
+            "Compatible en lo esencial, el resto no importa",
+            "Prefiero que tengamos mundos distintos que se tocan",
+            "No es un factor importante para mí"
+          ]
+        },
+        {
+          "q": "¿Qué te saca de quicio en la convivencia diaria?",
+          "options": [
+            "El desorden o la falta de higiene",
+            "No tener tiempo o espacio propios",
+            "La falta de comunicación sobre cosas pequeñas",
+            "El ruido o la falta de silencio"
+          ]
+        },
+        {
+          "q": "¿Cómo te llevas con los silencios incómodos?",
+          "options": [
+            "Bien, el silencio no me molesta",
+            "Los lleno rápido, me generan ansiedad",
+            "Depende de con quién sea el silencio",
+            "Los uso para procesar, me parecen útiles"
+          ]
+        },
+        {
+          "q": "¿Qué tan seguido dices lo que piensas realmente en lugar de lo que la situación espera?",
+          "options": [
+            "Casi siempre, soy muy directo/a",
+            "En confianza sí, en público me regulo",
+            "Poco, me auto-censuro bastante",
+            "Depende de cuánto me importe la persona"
+          ]
+        },
+        {
+          "q": "¿Cómo manejas el aburrimiento en una relación estable?",
+          "options": [
+            "Lo veo como señal de que algo cambió",
+            "Lo trabajo — la rutina se construye",
+            "Lo acepto, no todo puede ser intenso",
+            "Me inquieta bastante"
+          ]
+        }
+      ]
+    }
+  }
+}
